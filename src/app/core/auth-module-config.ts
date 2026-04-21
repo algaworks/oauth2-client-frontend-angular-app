@@ -1,8 +1,6 @@
-import { OAuthModuleConfig } from 'angular-oauth2-oidc';
+// Auth module configuration is now defined in the environment files.
+// See src/environments/environment.ts and src/environments/environment.prod.ts
 
-export const authModuleConfig: OAuthModuleConfig = {
-  resourceServer: {
-    allowedUrls: ['https://demo.duendesoftware.com/api'],
-    sendAccessToken: true,
-  }
-};
+import { environment } from '../../environments/environment';
+
+export const authModuleConfig = environment.authModuleConfig;

@@ -73,7 +73,9 @@
             "ssl": true,
             "sslKey": "ssl/localhost.key",
             "sslCert": "ssl/localhost.crt",
-            "buildTarget": "sample-auth-guards:build"
+            "buildTarget": "sample-auth-guards:build",
+            "host": "0.0.0.0",
+            "allowedHosts": ["algashop-admin"]
           },
           "configurations": {
             "development": {

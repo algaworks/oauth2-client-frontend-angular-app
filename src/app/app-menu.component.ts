@@ -54,6 +54,9 @@ export class AppMenuComponent {
   login() {
     this.authService.login();
   }
+  loginPopup() {
+    this.authService.login('/', true);
+  }
   logout() {
     this.authService.logout();
   }

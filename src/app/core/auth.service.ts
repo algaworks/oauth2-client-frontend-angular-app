@@ -11,12 +11,16 @@ export class AuthService {
   private oauthService = inject(OAuthService);
   private router = inject(Router);
 
-
   private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
   public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
 
   private isDoneLoadingSubject$ = new BehaviorSubject<boolean>(false);
   public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
+
+  private _discoveryDocument: any;
+
+  private isDoneLoadingDiscoveryDocumentSubject$ = new BehaviorSubject<boolean>(false);
+  public isDoneLoadingDiscoveryDocument$ = this.isDoneLoadingDiscoveryDocumentSubject$.asObservable();
 
   /**
    * Publishes `true` if and only if (a) all the asynchronous initial
@@ -92,13 +96,22 @@ export class AuthService {
       console.table(location.hash.substr(1).split('&').map(kvp => kvp.split('=')));
     }
 
+    console.log('Running initial login sequence');
+
     // 0. LOAD CONFIG:
     // First we have to check to see how the IdServer is
     // currently configured:
+
     return this.oauthService.loadDiscoveryDocument()
+    
 
       // For demo purposes, we pretend the previous call was very slow
-      .then(() => new Promise<void>(resolve => setTimeout(() => resolve(), 1500)))
+      .then((event) => {
+        console.log('Discovery document loaded:', event);
+        this._discoveryDocument = event.info.discoveryDocument;
+        this.isDoneLoadingDiscoveryDocumentSubject$.next(true);
+        return new Promise(resolve => setTimeout(resolve, 1000));
+      })
 
       // 1. HASH LOGIN:
       // Try to log in via hash fragment after redirect back
@@ -145,6 +158,7 @@ export class AuthService {
 
             // We can't handle the truth, just pass on the problem to the
             // next handler.
+            console.error('Error occurred while trying to log in:', result);
             return Promise.reject(result);
           });
       })
@@ -164,13 +178,21 @@ export class AuthService {
           this.router.navigateByUrl(stateUrl);
         }
       })
-      .catch(() => this.isDoneLoadingSubject$.next(true));
+      .catch((e) => {
+        console.error('Error occurred while trying to log in:', e);
+        this.isDoneLoadingSubject$.next(true);
+      });
   }
 
-  public login(targetUrl?: string) {
+  public login(targetUrl?: string, popup = false) {
     // Note: before version 9.1.0 of the library you needed to
     // call encodeURIComponent on the argument to the method.
-    this.oauthService.initLoginFlow(targetUrl || this.router.url);
+    //this.oauthService.initLoginFlow(targetUrl || this.router.url);
+    if (popup) {
+      this.oauthService.initLoginFlowInPopup();
+    } else {
+      this.oauthService.initCodeFlow(targetUrl || this.router.url);
+    }
   }
 
   public logout() { this.oauthService.logOut(); }
@@ -184,4 +206,5 @@ export class AuthService {
   public get identityClaims() { return this.oauthService.getIdentityClaims(); }
   public get idToken() { return this.oauthService.getIdToken(); }
   public get logoutUrl() { return this.oauthService.logoutUrl; }
+  public get discoveryDocument() { return this._discoveryDocument; }
 }

@@ -20,6 +20,7 @@ import { AuthService } from './core/auth.service';
       <hr>
       <p>
         <button class="btn btn-success mr-1" (click)='login()'>login</button>
+        <button class="btn btn-success mr-1" (click)='loginPopup()'>login popup</button>
         <button class="btn btn-primary mr-1" (click)='logout()'>logout</button>
         <button class="btn btn-link mr-1" (click)='logoutExternally()'>logout externally...</button>
       </p>
@@ -30,6 +31,7 @@ import { AuthService } from './core/auth.service';
       </p>
       <hr>
       <table class="table table-bordered table-sm table-props">
+        <tr><th>DiscoveryDocument Loaded</th><td><code class="break-all">{{isDoneLoadingDiscoveryDocument$ | async}}</code></td></tr>
         <tr><th>IsAuthenticated</th><td><code id="isAuthenticated">{{isAuthenticated$ | async}}</code></td></tr>
         <tr><th>HasValidToken</th><td><code id="hasValidToken">{{hasValidToken}}</code></td></tr>
         <tr><th>IsDoneLoading</th><td><code id="isDoneLoading">{{isDoneLoading$ | async}}</code></td></tr>
@@ -48,15 +50,18 @@ export class AppComponent {
 
   isAuthenticated$: Observable<boolean>;
   isDoneLoading$: Observable<boolean>;
+  isDoneLoadingDiscoveryDocument$: Observable<boolean>;
   canActivateProtectedRoutes$: Observable<boolean>;
 
   constructor() {
     this.isAuthenticated$ = this.authService.isAuthenticated$;
     this.isDoneLoading$ = this.authService.isDoneLoading$;
+    this.isDoneLoadingDiscoveryDocument$ = this.authService.isDoneLoadingDiscoveryDocument$;
     this.canActivateProtectedRoutes$ = this.authService.canActivateProtectedRoutes$;
   }
 
   login() { this.authService.login(); }
+  loginPopup() { this.authService.login('/', true ); }
   logout() { this.authService.logout(); }
   refresh() { this.authService.refresh(); }
   reload() { window.location.reload(); }
