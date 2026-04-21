@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sample-auth-guards": {
+    "oauth2-client-frontend-angular-app": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -14,7 +14,7 @@
           "builder": "@angular/build:application",
           "options": {
             "outputPath": {
-              "base": "dist/sample-auth-guards"
+              "base": "dist/oauth2-client-frontend-angular-app"
             },
             "index": "src/index.html",
             "polyfills": [
@@ -73,16 +73,16 @@
             "ssl": true,
             "sslKey": "ssl/localhost.key",
             "sslCert": "ssl/localhost.crt",
-            "buildTarget": "sample-auth-guards:build",
+            "buildTarget": "oauth2-client-frontend-angular-app:build",
             "host": "0.0.0.0",
             "allowedHosts": ["algashop-admin"]
           },
           "configurations": {
             "development": {
-              "buildTarget": "sample-auth-guards:build:development"
+              "buildTarget": "oauth2-client-frontend-angular-app:build:development"
             },
             "production": {
-              "buildTarget": "sample-auth-guards:build:production"
+              "buildTarget": "oauth2-client-frontend-angular-app:build:production"
             }
           },
           "defaultConfiguration": "development"
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n",
           "options": {
-            "buildTarget": "sample-auth-guards:build"
+            "buildTarget": "oauth2-client-frontend-angular-app:build"
           }
         },
         "lint": {
