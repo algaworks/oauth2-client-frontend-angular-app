@@ -8,9 +8,9 @@ import { OAuthModuleConfig } from 'angular-oauth2-oidc';
 // OAuth/OIDC Configuration for development
 // Example local development URLs using local domain resolution
 export const authConfig: AuthConfig = {
-  issuer: 'http://algashop-authorization-server:8081',
-  redirectUri: 'http://algashop-admin:4200',
-  silentRefreshRedirectUri: 'http://algashop-admin:4200/silent-refresh.html',
+  issuer: 'http://auth.algashop.local:8081',
+  redirectUri: 'http://admin.algashop.local:4200',
+  silentRefreshRedirectUri: 'http://admin.algashop.local:4200/silent-refresh.html',
   clientId: 'algashop-admin-web',
   responseType: 'code',
   scope: 'openid products:read products:write products:stock:write categories:read categories:write invoices:read orders:read customers:read shopping-carts:read users:read users:write',
@@ -30,7 +30,7 @@ export const authConfig: AuthConfig = {
 export const authModuleConfig: OAuthModuleConfig = {
   resourceServer: {
     allowedUrls: [
-      'http://algashop-authorization-server:8081/api/v1'
+      'http://auth.algashop.local:8081/api/v1'
     ],
     sendAccessToken: true,
   }

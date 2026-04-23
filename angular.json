@@ -75,7 +75,7 @@
             "sslCert": "ssl/localhost.crt",
             "buildTarget": "oauth2-client-frontend-angular-app:build",
             "host": "0.0.0.0",
-            "allowedHosts": ["algashop-admin"]
+            "allowedHosts": ["admin.algashop.local"]
           },
           "configurations": {
             "development": {
